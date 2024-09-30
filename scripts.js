@@ -10,7 +10,12 @@ function fetchJSONData() {
       }
       return res.json();
     })
-    .then((data) => console.log(data))
+    .then((data) => {
+      console.log(data);
+      const operatingSystemsArray=data.operatingSystems;
+      console.log("operatingSystemsArray",operatingSystemsArray )
+
+    })
     .catch((error) => console.error("Unable to fetch data:", error));
 }
 fetchJSONData();
