@@ -1,6 +1,7 @@
 // console.log("hello from script");
 const osList = document.getElementById("os-list");
 
+// TODO: maybe better to have data in file but just put at top so easier to find when it does need modified.
 // https://www.geeksforgeeks.org/read-json-file-using-javascript/
 function fetchJSONData() {
   fetch("./db.json")
