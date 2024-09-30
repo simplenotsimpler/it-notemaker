@@ -11,10 +11,15 @@ function fetchJSONData() {
       return res.json();
     })
     .then((data) => {
-      console.log(data);
-      const operatingSystemsArray=data.operatingSystems;
-      console.log("operatingSystemsArray",operatingSystemsArray )
-
+      // console.log(data);
+      const operatingSystemsArray = data.operatingSystems;
+      console.log("operatingSystemsArray", operatingSystemsArray);
+      operatingSystemsArray.forEach((os) => {
+        const option = document.createElement("option");
+        option.value = os.id;
+        option.textContent = os.name;
+        osList.appendChild(option);
+      });
     })
     .catch((error) => console.error("Unable to fetch data:", error));
 }
@@ -23,13 +28,13 @@ fetchJSONData();
 // https://www.youtube.com/watch?v=18kROgRlRDQ
 // const osList = document.getElementById("os-list");
 // TODO: fetch this from db.json
-const JSONArrayString =
-  '[{"name": "Windows 10 22H2", "id": "Win1022H2"}, {"name": "Windows 11 23H2", "id": "Win1123H2"}]';
+// const JSONArrayString =
+//   '[{"name": "Windows 10 22H2", "id": "Win1022H2"}, {"name": "Windows 11 23H2", "id": "Win1123H2"}]';
 
-const operatingSystems = JSON.parse(JSONArrayString);
-operatingSystems.forEach((os) => {
-  const option = document.createElement("option");
-  option.value = os.id;
-  option.textContent = os.name;
-  osList.appendChild(option);
-});
+// const operatingSystems = JSON.parse(JSONArrayString);
+// operatingSystems.forEach((os) => {
+//   const option = document.createElement("option");
+//   option.value = os.id;
+//   option.textContent = os.name;
+//   osList.appendChild(option);
+// });
