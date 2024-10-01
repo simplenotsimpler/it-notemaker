@@ -4,7 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>IT Notemaker</title>
-    <script src="scripts.js" defer></script>
   </head>
   <body>
     <h1>IT Notemaker</h1>
@@ -12,5 +11,21 @@
     <select name="os-list" id="os-list">
       <option>-- select an operating system --</option>
     </select>
+
+    <script>
+      console.log("script tag js");
+      //data arrays
+      operatingSystems = ["Windows 10", "Windows 11"];
+
+      //load options
+      const osList = document.getElementById("os-list");
+      operatingSystems.forEach((os) => {
+        console.log(os);
+        const option = document.createElement("option");
+        option.value = os;
+        option.textContent = os;
+        osList.appendChild(option);
+      });
+    </script>
   </body>
 </html>
