@@ -6,14 +6,17 @@
     <title>IT Notemaker</title>
   </head>
   <body>
+    <!-- TODO: styling -->
     <h1>IT Notemaker</h1>
-    <!-- TODO: put this in a form -->
-    <select name="os-list" id="os-list">
-      <option>-- select an operating system --</option>
-    </select>
+
+    <form>
+      <select name="os-list" id="os-list">
+        <option>-- select an operating system --</option>
+      </select>
+      <button type="submit">Copy</button>
+    </form>
 
     <script>
-      console.log("script tag js");
       //data arrays
       operatingSystems = ["Windows 10", "Windows 11"];
 
@@ -31,6 +34,7 @@
       const osList = document.getElementById("os-list");
       addOptions(operatingSystems, osList);
 
+      //
     </script>
   </body>
 </html>
