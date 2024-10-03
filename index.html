@@ -9,11 +9,15 @@
     <!-- TODO: styling -->
     <h1>IT Notemaker</h1>
 
-    <form>
+    <form id="ts-form">
+      <label for="os-list" id="label-os-list" name="label-os-list"
+        >Operating System:</label
+      >
       <select name="os-list" id="os-list">
         <option>-- select an operating system --</option>
       </select>
-      <button type="submit">Copy</button>
+
+      <button type="submit">Generate Notes</button>
     </form>
 
     <script>
@@ -34,7 +38,25 @@
       const osList = document.getElementById("os-list");
       addOptions(operatingSystems, osList);
 
-      //
+      //get data from form
+
+      const tsForm = document.querySelector(`#ts-form`);
+
+      let notesText = ``;
+      function generateNotes(event) {
+        event.preventDefault();
+
+        //explicitly form values using labels in form as labels in the generated text
+        const osText = `${
+          document.getElementById("label-os-list").textContent
+        } ${document.getElementById("os-list").value}`;
+
+        notesText = `${osText}`;
+
+        console.log(notesText);
+      }
+
+      tsForm.addEventListener(`submit`, generateNotes);
     </script>
   </body>
 </html>
