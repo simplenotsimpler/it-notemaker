@@ -16,6 +16,20 @@
       <select name="os-list" id="os-list">
         <option>-- select an operating system --</option>
       </select>
+      <label for="os-version" id="label-os-version" name="label-os-version"
+        >Version/OSBuild:</label
+      >
+      <input type="text" name="os-version" id="os-version" />
+
+      <!-- TODO: device type - select -->
+      <!-- TODO: device name - text -->
+      <!-- TODO: problem start approx - date -->
+      <!-- TODO: problem category (?) - select -->
+      <!-- TODO: ip address - text  -->
+      <!-- TODO: application - text NOTE: too many to keep in a list -->
+      <!-- TODO: user description of issue - text area -->
+      <!-- TODO: BIOS and drivers up to date - boolean -->
+      <!-- TODO: troubleshooting - text area -->
 
       <button type="submit">Generate Notes</button>
     </form>
@@ -51,7 +65,15 @@
           document.getElementById("label-os-list").textContent
         } ${document.getElementById("os-list").value}`;
 
-        notesText = `${osText}`;
+        const osVersion = `${
+          document.getElementById("label-os-version").textContent
+        } ${document.getElementById("os-version").value}`;
+
+        notesText = `
+          ${osText}
+          ${osVersion}
+        
+        `;
 
         console.log(notesText);
       }
