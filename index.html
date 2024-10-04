@@ -10,16 +10,16 @@
     <h1>IT Notemaker</h1>
 
     <form id="ts-form">
-      <label for="os-list" id="label-os-list" name="label-os-list"
+      <label for="osList" id="labelOSList" name="labelOSList"
         >Operating System:</label
       >
-      <select name="os-list" id="os-list">
+      <select name="osList" id="osList">
         <option>-- select an operating system --</option>
       </select>
-      <label for="os-version" id="label-os-version" name="label-os-version"
+      <label for="osVersion" id="labelOSVersion" name="labelOSVersion"
         >Version/OSBuild:</label
       >
-      <input type="text" name="os-version" id="os-version" />
+      <input type="text" name="osVersion" id="osVersion" />
 
       <!-- TODO: device type - select -->
       <!-- TODO: device name - text -->
@@ -49,7 +49,7 @@
       }
 
       //load options
-      const osList = document.getElementById("os-list");
+      const osList = document.getElementById("osList");
       addOptions(operatingSystems, osList);
 
       //get data from form
@@ -62,12 +62,12 @@
 
         //explicitly form values using labels in form as labels in the generated text
         const osText = `${
-          document.getElementById("label-os-list").textContent
-        } ${document.getElementById("os-list").value}`;
+          document.getElementById("labelOSList").textContent
+        } ${document.getElementById("osList").value}`;
 
         const osVersion = `${
-          document.getElementById("label-os-version").textContent
-        } ${document.getElementById("os-version").value}`;
+          document.getElementById("labelOSVersion").textContent
+        } ${document.getElementById("osVersion").value}`;
 
         notesText = `
           ${osText}
