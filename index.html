@@ -4,35 +4,100 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>IT Notemaker</title>
+    <!-- https://www.geeksforgeeks.org/how-to-create-a-stacked-form-using-css/ -->
+    <style>
+      /* TODO: change to relative sizes instead of px */
+      /* TODO: tweak styling - better colors, etc. */
+      body {
+        /* font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; */
+        /* use bootstrap font family */
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif,
+          "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+          "Noto Color Emoji";
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      }
+
+      .custom-form {
+        /* max-width: 450px; */
+        width: 100%;
+        padding: 25px;
+        border-radius: 10px;
+        border: 2px solid green;
+        box-shadow: 0 0 10px rgba(85, 255, 34, 0.5);
+      }
+
+      .custom-form h2 {
+        text-align: center;
+      }
+
+      .custom-form label {
+        display: block;
+        margin-bottom: 8px;
+        color: #555;
+      }
+
+      .custom-form input,
+      .custom-form select {
+        padding: 12px;
+        width: 100%;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        border-radius: 4px;
+        margin-bottom: 16px;
+      }
+
+      .custom-form button {
+        color: #fff;
+        cursor: pointer;
+        background-color: #4caf50;
+        width: 100%;
+        border: none;
+        border-radius: 4px;
+        padding: 12px;
+        font-size: 16px;
+      }
+    </style>
   </head>
   <body>
     <!-- TODO: styling -->
     <h1>IT Notemaker</h1>
 
-    <form id="ts-form">
-      <label for="osList" id="labelOSList" name="labelOSList"
-        >Operating System:</label
-      >
-      <select name="osList" id="osList">
-        <option>-- select an operating system --</option>
-      </select>
-      <label for="osVersion" id="labelOSVersion" name="labelOSVersion"
-        >Version/OSBuild:</label
-      >
-      <input type="text" name="osVersion" id="osVersion" />
+    <div>
+      <h2>Gather Notes</h2>
 
-      <!-- TODO: device type - select -->
-      <!-- TODO: device name - text -->
-      <!-- TODO: problem start approx - date -->
-      <!-- TODO: problem category (?) - select -->
-      <!-- TODO: ip address - text  -->
-      <!-- TODO: application - text NOTE: too many to keep in a list -->
-      <!-- TODO: user description of issue - text area -->
-      <!-- TODO: BIOS and drivers up to date - boolean -->
-      <!-- TODO: troubleshooting - text area -->
+      <form id="ts-form" class="custom-form">
+        <label for="osList" id="labelOSList" name="labelOSList"
+          >Operating System:</label
+        >
+        <select name="osList" id="osList">
+          <option>-- select an operating system --</option>
+        </select>
+        <label for="osVersion" id="labelOSVersion" name="labelOSVersion"
+          >Version/OSBuild:</label
+        >
+        <input type="text" name="osVersion" id="osVersion" />
 
-      <button type="submit">Generate Notes</button>
-    </form>
+        <!-- TODO: device type - select -->
+        <!-- TODO: device name - text -->
+        <!-- TODO: problem start approx - date -->
+        <!-- TODO: problem category (?) - select -->
+        <!-- TODO: ip address - text  -->
+        <!-- TODO: application - text NOTE: too many to keep in a list -->
+        <!-- TODO: user description of issue - text area -->
+        <!-- TODO: BIOS and drivers up to date - boolean -->
+        <!-- TODO: troubleshooting - text area -->
+
+        <button type="submit">Generate Notes</button>
+      </form>
+    </div>
 
     <script>
       //data arrays
@@ -61,9 +126,9 @@
         event.preventDefault();
 
         //explicitly form values using labels in form as labels in the generated text
-        const osText = `${
-          document.getElementById("labelOSList").textContent
-        } ${document.getElementById("osList").value}`;
+        const osText = `${document.getElementById("labelOSList").textContent} ${
+          document.getElementById("osList").value
+        }`;
 
         const osVersion = `${
           document.getElementById("labelOSVersion").textContent
