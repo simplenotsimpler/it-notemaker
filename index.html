@@ -6,6 +6,41 @@
     <title>IT Notemaker</title>
     <!-- https://www.geeksforgeeks.org/how-to-create-a-stacked-form-using-css/ -->
     <style>
+      /* reset */
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary-color: mediumvioletred;
+        --light-color: #fff;
+        --dark-accent-color: purple;
+        --light-accent-color: #ccc;
+        --light-bold: 600;
+      }
+
+      :is(h1, h2, h3, h4, h5, h6) {
+        font-weight: normal;
+      }
+
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+      }
+
+      button,
+      input,
+      select,
+      textarea {
+        font-family: inherit;
+        font-size: 100%;
+        background-color: transparent;
+      }
       /* TODO: change to relative sizes instead of px */
       /* TODO: tweak styling - better colors, etc. */
       body {
@@ -15,55 +50,113 @@
           "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif,
           "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
           "Noto Color Emoji";
+        font-size: 1rem;
         margin: 0;
         padding: 0;
         display: flex;
         flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
+
+        /* align-items: center; */
+        /* justify-content: center; */
+        /* height: 100vh; */
       }
 
-      .custom-form {
+      h1 {
+        text-align: center;
+      }
+      .gather-notes {
+        width: 45%;
+        padding: 1rem;
+      }
+      .gather-notes-form {
         /* max-width: 450px; */
         width: 100%;
-        padding: 25px;
+        padding: 1rem;
         border-radius: 10px;
-        border: 2px solid green;
-        box-shadow: 0 0 10px rgba(85, 255, 34, 0.5);
+        border: 2px solid var(--dark-accent-color);
+        /* box-shadow: 0 0 10px rgba(85, 255, 34, 0.5); */
       }
 
-      .custom-form h2 {
+      .gather-notes-form h2 {
         text-align: center;
       }
 
-      .custom-form label {
-        display: block;
-        margin-bottom: 8px;
-        color: #555;
+      .gather-notes-form .device-info {
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+        border-radius: 8px;
+        border: 2px dashed var(--dark-accent-color);
+        /* box-shadow: inset -5px -5px 7px; */
+        /* box-shadow: 5px 5px 7px; */
       }
 
-      .custom-form input,
-      .custom-form select,
+      .gather-notes-form .device-info legend {
+        padding: 0.25rem;
+        font-weight: var(--light-bold);
+        /* margin-bottom: 1rem; */
+      }
+      .gather-notes-form label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: var(--light-bold);
+      }
+
+      .gather-notes-form input,
+      .gather-notes-form select,
       textarea {
-        padding: 12px;
+        padding: 0.75rem;
         width: 100%;
-        font-size: 16px;
-        border: 1px solid #ccc;
+        border: 1px solid var(--light-accent-color);
         box-sizing: border-box;
         border-radius: 4px;
-        margin-bottom: 16px;
+        margin-bottom: 1rem;
       }
 
-      .custom-form button {
-        color: #fff;
-        cursor: pointer;
-        background-color: #4caf50;
+      .form-buttons {
+        display: flex;
         width: 100%;
+        justify-content: space-between;
+      }
+      .gather-notes-form .btn-submit {
+        color: var(--light-color);
+        cursor: pointer;
+        background-color: var(--primary-color);
+        width: 45%;
         border: none;
         border-radius: 4px;
-        padding: 12px;
-        font-size: 16px;
+        padding: 0.75rem;
+      }
+
+      .gather-notes-form .btn-reset {
+        color: var(--primary-color);
+        cursor: pointer;
+        background-color: #fff;
+        width: 45%;
+        border: 1px solid var(--primary-color);
+        border-radius: 4px;
+        padding: 0.75rem;
+      }
+
+      .biosDrivers {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        margin-bottom: 1rem;
+      }
+
+      .biosDrivers label {
+        margin: 0;
+        padding: 0;
+      }
+
+      /* TODO: change background color when checked */
+      .biosDrivers input[type="checkbox"] {
+        /* setting size on checkbox makes it same height as label */
+        width: 1.25rem;
+        height: 1.25rem;
+        margin: 0;
+        margin-left: 0.5rem;
+        padding: 0;
       }
     </style>
   </head>
@@ -71,45 +164,46 @@
     <!-- TODO: styling -->
     <h1>IT Notemaker</h1>
 
-    <div>
+    <div class="gather-notes">
       <h2>Gather Notes</h2>
 
-      <form id="ts-form" class="custom-form">
-        <label
-          for="deviceTypeList"
-          id="labelDeviceTypeList"
-          name="labelDeviceTypeList"
-          >Device Type:</label
-        >
+      <form id="ts-form" class="gather-notes-form">
+        <fieldset class="device-info">
+          <legend>Device Info</legend>
+          <label
+            for="deviceTypeList"
+            id="labelDeviceTypeList"
+            name="labelDeviceTypeList"
+            >Device Type:</label
+          >
+          <!-- populated via JavaScript -->
+          <select name="deviceTypeList" id="deviceTypeList"></select>
 
-        <!-- populated via JavaScript -->
-        <select name="deviceTypeList" id="deviceTypeList"></select>
+          <!-- TODO: maybe tweak this ... do we want limit with 21H2, etc. or just Windows? do we need other? n/a? -->
+          <label for="osList" id="labelOSList" name="labelOSList"
+            >Operating System:</label
+          >
+          <!-- populated via JavaScript -->
+          <select name="osList" id="osList"></select>
 
-        <!-- TODO: maybe tweak this ... do we want limit with 21H2, etc. or just Windows? do we need other? n/a? -->
-        <label for="osList" id="labelOSList" name="labelOSList"
-          >Operating System:</label
-        >
-        <!-- populated via JavaScript -->
-        <select name="osList" id="osList"></select>
+          <label for="osVersion" id="labelOSVersion" name="labelOSVersion"
+            >Version or flavor (e.g. 22H2, 23H2, Sequoia, Ubuntu):</label
+          >
+          <input type="text" name="osVersion" id="osVersion" />
 
-        <label for="osVersion" id="labelOSVersion" name="labelOSVersion"
-          >Version or flavor (e.g. 22H2, 23H2, Sequoia, Ubuntu):</label
-        >
-        <input type="text" name="osVersion" id="osVersion" />
+          <label
+            for="osVersionNumber"
+            id="labelOSVersionNumber"
+            name="labelOSVersionNumber"
+            >Version / OSBuild [Number]:</label
+          >
+          <input type="text" name="osVersionNumber" id="osVersionNumber" />
 
-        <label
-          for="osVersionNumber"
-          id="labelOSVersionNumber"
-          name="labelOSVersionNumber"
-          >Version / OSBuild [Number]:</label
-        >
-        <input type="text" name="osVersionNumber" id="osVersionNumber" />
-
-        <label for="deviceName" id="labelDeviceName" name="labelDeviceName"
-          >Device Name:</label
-        >
-        <input type="text" name="deviceName" id="deviceName" />
-
+          <label for="deviceName" id="labelDeviceName" name="labelDeviceName"
+            >Device Name:</label
+          >
+          <input type="text" name="deviceName" id="deviceName" />
+        </fieldset>
         <label
           for="problemStartDate"
           name="labelProblemStartDate"
@@ -145,19 +239,20 @@
           rows="5"
         ></textarea>
 
-        <!-- TODO: style so label and checkbox on same line/same height -->
         <!-- TODO: show/hide if OS is Windows -->
-        <label
-          for="biosAndDriversUpToDate"
-          id="labelBiosAndDriversUpToDate"
-          name="labelBiosAndDriversUpToDate"
-          >BIOS and Drivers Up to Date?:</label
-        >
-        <input
-          type="checkbox"
-          name="biosAndDriversUpToDate"
-          id="biosAndDriversUpToDate"
-        />
+        <div class="biosDrivers">
+          <label
+            for="biosAndDriversUpToDate"
+            id="labelBiosAndDriversUpToDate"
+            name="labelBiosAndDriversUpToDate"
+            >BIOS and Drivers Up to Date?:</label
+          >
+          <input
+            type="checkbox"
+            name="biosAndDriversUpToDate"
+            id="biosAndDriversUpToDate"
+          />
+        </div>
 
         <label
           for="troubleshooting"
@@ -173,15 +268,16 @@
           rows="5"
         ></textarea>
 
-        <!-- TODO: style so side by side -->
-        <!-- onclick="resetFormAndDate(event.currentTarget, document.getElementById('problemStartDate'))" -->
-        <button
-          type="button"
-          onclick="resetFormAndDate(this.form, document.getElementById('problemStartDate'))"
-        >
-          Clear
-        </button>
-        <button type="submit">Generate Notes</button>
+        <div class="form-buttons">
+          <button
+            type="button"
+            class="btn-reset"
+            onclick="resetFormAndDate(this.form, document.getElementById('problemStartDate'))"
+          >
+            Clear
+          </button>
+          <button type="submit" class="btn-submit">Generate Notes</button>
+        </div>
       </form>
     </div>
 
