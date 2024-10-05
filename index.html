@@ -44,7 +44,8 @@
       }
 
       .custom-form input,
-      .custom-form select {
+      .custom-form select,
+      textarea {
         padding: 12px;
         width: 100%;
         font-size: 16px;
@@ -74,34 +75,135 @@
       <h2>Gather Notes</h2>
 
       <form id="ts-form" class="custom-form">
+        <label
+          for="deviceTypeList"
+          id="labelDeviceTypeList"
+          name="labelDeviceTypeList"
+          >Device Type:</label
+        >
+
+        <!-- populated via JavaScript -->
+        <select name="deviceTypeList" id="deviceTypeList"></select>
+
+        <!-- TODO: maybe tweak this ... do we want limit with 21H2, etc. or just Windows? do we need other? n/a? -->
         <label for="osList" id="labelOSList" name="labelOSList"
           >Operating System:</label
         >
-        <select name="osList" id="osList">
-          <option>-- select an operating system --</option>
-        </select>
+        <!-- populated via JavaScript -->
+        <select name="osList" id="osList"></select>
+
         <label for="osVersion" id="labelOSVersion" name="labelOSVersion"
-          >Version/OSBuild:</label
+          >Version or flavor (e.g. 22H2, 23H2, Sequoia, Ubuntu):</label
         >
         <input type="text" name="osVersion" id="osVersion" />
 
-        <!-- TODO: device type - select -->
-        <!-- TODO: device name - text -->
-        <!-- TODO: problem start approx - date -->
-        <!-- TODO: problem category (?) - select -->
-        <!-- TODO: ip address - text  -->
-        <!-- TODO: application - text NOTE: too many to keep in a list -->
-        <!-- TODO: user description of issue - text area -->
-        <!-- TODO: BIOS and drivers up to date - boolean -->
-        <!-- TODO: troubleshooting - text area -->
+        <label
+          for="osVersionNumber"
+          id="labelOSVersionNumber"
+          name="labelOSVersionNumber"
+          >Version / OSBuild [Number]:</label
+        >
+        <input type="text" name="osVersionNumber" id="osVersionNumber" />
 
+        <label for="deviceName" id="labelDeviceName" name="labelDeviceName"
+          >Device Name:</label
+        >
+        <input type="text" name="deviceName" id="deviceName" />
+
+        <label
+          for="problemStartDate"
+          name="labelProblemStartDate"
+          id="labelProblemStartDate"
+          >Problem Started (yyyy-mm-dd):</label
+        >
+        <input type="date" name="problemStartDate" id="problemStartDate" />
+
+        <label for="ipAddress" id="labelIPAddress" name="labelIPAddress"
+          >IP address:</label
+        >
+        <input type="text" name="ipAddress" id="ipAddress" />
+
+        <!-- NOTE: too many to keep in a list -->
+        <label
+          for="applicationName"
+          id="labelApplicationName"
+          name="labelApplicationName"
+          >Application:</label
+        >
+        <input type="text" name="applicationName" id="applicationName" />
+
+        <label
+          for="userDescription"
+          id="labelUserDescription"
+          name="labelUserDescription"
+          >User Description:</label
+        >
+        <textarea
+          name="userDescription"
+          id="userDescription"
+          col="100"
+          rows="5"
+        ></textarea>
+
+        <!-- TODO: style so label and checkbox on same line/same height -->
+        <!-- TODO: show/hide if OS is Windows -->
+        <label
+          for="biosAndDriversUpToDate"
+          id="labelBiosAndDriversUpToDate"
+          name="labelBiosAndDriversUpToDate"
+          >BIOS and Drivers Up to Date?:</label
+        >
+        <input
+          type="checkbox"
+          name="biosAndDriversUpToDate"
+          id="biosAndDriversUpToDate"
+        />
+
+        <label
+          for="troubleshooting"
+          id="labelTroubleshooting"
+          name="labelTroubleshooting"
+          >Troubleshooting:</label
+        >
+
+        <textarea
+          name="troubleshooting"
+          id="troubleshooting"
+          col="100"
+          rows="5"
+        ></textarea>
+
+        <!-- TODO: style so side by side -->
+        <!-- onclick="resetFormAndDate(event.currentTarget, document.getElementById('problemStartDate'))" -->
+        <button
+          type="button"
+          onclick="resetFormAndDate(this.form, document.getElementById('problemStartDate'))"
+        >
+          Clear
+        </button>
         <button type="submit">Generate Notes</button>
       </form>
     </div>
 
     <script>
       //data arrays
-      operatingSystems = ["Windows 10", "Windows 11"];
+
+      deviceTypes = [
+        "PC",
+        "iOS Device (iPhone, iPad)",
+        "Android Device (phone, tablet)",
+        "Handheld Scanner",
+        "Printer",
+      ];
+
+      operatingSystems = [
+        "Windows 10",
+        "Windows 11",
+        "macOS",
+        "iOS",
+        "Android",
+        "Linux",
+      ];
 
       //general functions
       function addOptions(sourceArray, parentElement) {
@@ -113,9 +215,23 @@
         });
       }
 
+      function setDefaultDate(dateElement) {
+        dateElement.valueAsDate = new Date();
+      }
+
+      function resetFormAndDate(form, dateElement) {
+        form.reset();
+        setDefaultDate(dateElement);
+      }
       //load options
       const osList = document.getElementById("osList");
       addOptions(operatingSystems, osList);
+
+      const deviceTypeList = document.getElementById("deviceTypeList");
+      addOptions(deviceTypes, deviceTypeList);
+
+      //set date to default of today
+      setDefaultDate(document.getElementById("problemStartDate"));
 
       //get data from form
 
@@ -126,6 +242,11 @@
         event.preventDefault();
 
         //explicitly form values using labels in form as labels in the generated text
+
+        const deviceTypeText = `${
+          document.getElementById("labelDeviceTypeList").textContent
+        } ${document.getElementById("deviceTypeList").value}`;
+
         const osText = `${document.getElementById("labelOSList").textContent} ${
           document.getElementById("osList").value
         }`;
@@ -134,13 +255,61 @@
           document.getElementById("labelOSVersion").textContent
         } ${document.getElementById("osVersion").value}`;
 
+        const osVersionNumber = `${
+          document.getElementById("labelOSVersionNumber").textContent
+        } ${document.getElementById("osVersionNumber").value}`;
+
+        const deviceName = `${
+          document.getElementById("labelDeviceName").textContent
+        } ${document.getElementById("deviceName").value}`;
+
+        const problemStartDate = `${
+          document.getElementById("labelProblemStartDate").textContent
+        } ${document.getElementById("problemStartDate").value}`;
+
+        const ipAddress = `${
+          document.getElementById("labelIPAddress").textContent
+        } ${document.getElementById("ipAddress").value}`;
+
+        const applicationName = `${
+          document.getElementById("labelApplicationName").textContent
+        } ${document.getElementById("applicationName").value}`;
+
+        const userDescriptionText = `${
+          document.getElementById("labelUserDescription").textContent
+        } ${document.getElementById("userDescription").value}`;
+
+        const troubleshootingText = `${
+          document.getElementById("labelTroubleshooting").textContent
+        } ${document.getElementById("troubleshooting").value}`;
+
+        //https://stackoverflow.com/questions/64433943/can-an-html-checkbox-value-hold-a-boolean-instead-of-a-string
+        const biosAndDriversUpToDateChecked = `${
+          document.getElementById("labelBiosAndDriversUpToDate").textContent
+        } ${document.getElementById("biosAndDriversUpToDate").checked}`;
+
         notesText = `
           ${osText}
           ${osVersion}
-        
+          ${osVersionNumber}
+          ${deviceTypeText}
+          ${deviceName}
+          ${problemStartDate}
+          ${ipAddress}
+          ${applicationName}
+          ${userDescriptionText}
+          ${troubleshootingText}
+          ${biosAndDriversUpToDateChecked}
+
         `;
 
         console.log(notesText);
+        // event.target.reset();
+        // setDefaultDate(document.getElementById("problemStartDate"));
+        resetFormAndDate(
+          event.target,
+          document.getElementById("problemStartDate")
+        );
       }
 
       tsForm.addEventListener(`submit`, generateNotes);
