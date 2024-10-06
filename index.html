@@ -6,7 +6,7 @@
     <title>IT Notemaker</title>
     <!-- https://www.geeksforgeeks.org/how-to-create-a-stacked-form-using-css/ -->
     <style>
-      /* reset */
+      /* Reset and basic styling */
       *,
       *::before,
       *::after {
@@ -23,16 +23,26 @@
         --light-bold: 600;
       }
 
-      :is(h1, h2, h3, h4, h5, h6) {
-        font-weight: normal;
-      }
-
       html,
       body {
         height: 100%;
         width: 100%;
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial, sans-serif;
+        font-size: 1rem;
       }
 
+      h1 {
+        text-align: center;
+      }
+
+      body {
+        display: flex;
+        flex-direction: column;
+        margin: 0;
+      }
+
+      /* Reset styles for form elements */
       button,
       input,
       select,
@@ -40,233 +50,343 @@
         font-family: inherit;
         font-size: 100%;
         background-color: transparent;
-      }
-      /* TODO: change to relative sizes instead of px */
-      /* TODO: tweak styling - better colors, etc. */
-      body {
-        /* font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; */
-        /* use bootstrap font family */
-        font-family: system-ui, -apple-system, "Segoe UI", Roboto,
-          "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif,
-          "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-          "Noto Color Emoji";
-        font-size: 1rem;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-
-        /* align-items: center; */
-        /* justify-content: center; */
-        /* height: 100vh; */
+        margin: 0; /* Ensure no extra margin */
+        padding: 0; /* Reset padding */
+        border: none; /* Reset border */
+        box-shadow: none; /* Reset box shadow */
+        outline: none; /* Reset outline */
       }
 
-      h1 {
-        text-align: center;
-      }
+      /* Form container */
       .gather-notes {
         width: 45%;
         padding: 1rem;
       }
+
       .gather-notes-form {
-        /* max-width: 450px; */
         width: 100%;
         padding: 1rem;
-        border-radius: 10px;
         border: 2px solid var(--dark-accent-color);
-        /* box-shadow: 0 0 10px rgba(85, 255, 34, 0.5); */
+        border-radius: 10px;
       }
 
-      .gather-notes-form h2 {
+      .gather-notes-form h2,
+      legend {
         text-align: center;
+        font-weight: var(--light-bold);
       }
 
-      .gather-notes-form .device-info {
+      /* Fieldset */
+      fieldset {
         padding: 0.5rem;
         margin-bottom: 1rem;
-        border-radius: 8px;
         border: 2px dashed var(--dark-accent-color);
-        /* box-shadow: inset -5px -5px 7px; */
-        /* box-shadow: 5px 5px 7px; */
+        border-radius: 8px;
       }
 
-      .gather-notes-form .device-info legend {
-        padding: 0.25rem;
-        font-weight: var(--light-bold);
-        /* margin-bottom: 1rem; */
-      }
-      .gather-notes-form label {
-        display: block;
-        margin-bottom: 0.5rem;
-        font-weight: var(--light-bold);
-      }
-
-      .gather-notes-form input,
-      .gather-notes-form select,
-      textarea {
-        padding: 0.75rem;
-        width: 100%;
-        border: 1px solid var(--light-accent-color);
-        box-sizing: border-box;
-        border-radius: 4px;
+      /* Styling for div within fieldset for alignment */
+      fieldset div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
         margin-bottom: 1rem;
       }
 
+      fieldset label,
+      fieldset input,
+      fieldset select,
+      fieldset textarea {
+        flex: 1;
+      }
+
+      /* Labels, inputs, selects, and textareas */
+      label,
+      input,
+      select,
+      textarea {
+        display: block;
+        width: 100%;
+        margin-bottom: 1rem;
+        padding: 0.75rem;
+        border: 1px solid var(--light-accent-color);
+        border-radius: 4px;
+      }
+
+      /* Make labels the same height as inputs */
+      label {
+        margin-bottom: 0.5rem;
+        font-weight: var(--light-bold);
+        line-height: 2.5rem; /* Adjust to match the input height */
+        background: none;
+        border: none; /* Remove borders */
+        padding: 0;
+      }
+
+      textarea {
+        resize: vertical;
+      }
+
+      input::placeholder {
+        font-size: 90%;
+      }
+
+      /* Form buttons */
       .form-buttons {
         display: flex;
-        width: 100%;
         justify-content: space-between;
       }
-      .gather-notes-form .btn-submit {
-        color: var(--light-color);
+
+      button {
+        width: 45%;
+        padding: 0.75rem;
         cursor: pointer;
+        border-radius: 4px;
+      }
+
+      .btn-submit {
         background-color: var(--primary-color);
-        width: 45%;
+        color: var(--light-color);
         border: none;
-        border-radius: 4px;
-        padding: 0.75rem;
       }
 
-      .gather-notes-form .btn-reset {
+      .btn-reset {
+        background-color: var(--light-color);
         color: var(--primary-color);
-        cursor: pointer;
-        background-color: #fff;
-        width: 45%;
         border: 1px solid var(--primary-color);
-        border-radius: 4px;
-        padding: 0.75rem;
       }
 
-      .biosDrivers {
+      /* checkbox div */
+      .checkbox {
         display: flex;
-        flex-wrap: wrap;
         align-items: center;
         margin-bottom: 1rem;
       }
 
-      .biosDrivers label {
-        margin: 0;
-        padding: 0;
-      }
-
-      /* TODO: change background color when checked */
-      .biosDrivers input[type="checkbox"] {
-        /* setting size on checkbox makes it same height as label */
+      /* 
+        change accent color to change background of checkbox
+        https://stackoverflow.com/questions/66383850/checkbox-css-cannot-change-background-color-for-the-checkbox
+      */
+      .checkbox input[type="checkbox"] {
+        accent-color: var(--primary-color);
         width: 1.25rem;
         height: 1.25rem;
-        margin: 0;
         margin-left: 0.5rem;
-        padding: 0;
+      }
+
+      /* Responsive Breakpoints */
+      @media (max-width: 768px) {
+        .gather-notes {
+          width: 70%; /* Increase width for medium devices */
+        }
+
+        .form-buttons {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        button {
+          width: 100%; /* Full-width buttons on medium devices */
+          margin-bottom: 1rem;
+        }
+
+        /* Adjusting fieldset div for smaller screens */
+        fieldset div {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        label,
+        input,
+        select,
+        textarea {
+          width: 100%; /* Ensure full width on small screens */
+          margin-bottom: 1rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .gather-notes {
+          width: 90%; /* Full width for small devices */
+          padding: 0.5rem;
+        }
+
+        fieldset {
+          padding: 0.25rem; /* Reduce padding for small devices */
+        }
+
+        label,
+        input,
+        select,
+        textarea {
+          padding: 0.5rem; /* Reduce padding on small devices */
+        }
+
+        button {
+          padding: 0.5rem; /* Reduce button padding on small devices */
+        }
+      }
+
+      .required {
+        color: red;
+        font-weight: 700;
       }
     </style>
   </head>
   <body>
-    <!-- TODO: styling -->
     <h1>IT Notemaker</h1>
+
+    <!-- TODO: output on page -->
+    <!-- TODO: add output to clipboard -->
 
     <div class="gather-notes">
       <h2>Gather Notes</h2>
 
       <form id="ts-form" class="gather-notes-form">
+        <fieldset class="user-info">
+          <legend>User info</legend>
+          <div>
+            <label
+              for="problemStartDate"
+              name="labelProblemStartDate"
+              id="labelProblemStartDate"
+              >Problem Started:</label
+            >
+            <input type="date" name="problemStartDate" id="problemStartDate" />
+          </div>
+          <label
+            for="userDescription"
+            id="labelUserDescription"
+            name="labelUserDescription"
+            >User Description:</label
+          >
+          <textarea
+            name="userDescription"
+            id="userDescription"
+            col="100"
+            rows="2"
+          ></textarea>
+        </fieldset>
         <fieldset class="device-info">
           <legend>Device Info</legend>
-          <label
-            for="deviceTypeList"
-            id="labelDeviceTypeList"
-            name="labelDeviceTypeList"
-            >Device Type:</label
-          >
-          <!-- populated via JavaScript -->
-          <select name="deviceTypeList" id="deviceTypeList"></select>
+          <div>
+            <label
+              for="deviceTypeList"
+              id="labelDeviceTypeList"
+              name="labelDeviceTypeList"
+              >Device Type:</label
+            >
+            <!-- populated via JavaScript -->
+            <select name="deviceTypeList" id="deviceTypeList"></select>
+          </div>
 
-          <!-- TODO: maybe tweak this ... do we want limit with 21H2, etc. or just Windows? do we need other? n/a? -->
-          <label for="osList" id="labelOSList" name="labelOSList"
-            >Operating System:</label
-          >
-          <!-- populated via JavaScript -->
-          <select name="osList" id="osList"></select>
+          <!-- 
+            require the os
+            https://stackoverflow.com/questions/25321180/how-do-you-set-up-a-required-select-without-a-default-value-selected
+          -->
+          <div>
+            <label for="osList" id="labelOSList" name="labelOSList"
+              >Operating System <span class="required">*</span>:</label
+            >
+            <!-- populated via JavaScript -->
+            <select
+              name="osList"
+              id="osList"
+              required
+              onchange="hideWindowsSpecific(event)"
+            >
+              <option value="">*Select an operating system*</option>
+            </select>
+          </div>
 
-          <label for="osVersion" id="labelOSVersion" name="labelOSVersion"
-            >Version or flavor (e.g. 22H2, 23H2, Sequoia, Ubuntu):</label
-          >
-          <input type="text" name="osVersion" id="osVersion" />
+          <div>
+            <label for="osVersion" id="labelOSVersion" name="labelOSVersion"
+              >Version/flavor <span class="required">*</span>:</label
+            >
+            <input
+              type="text"
+              name="osVersion"
+              id="osVersion"
+              placeholder="22H2, 23H2, Sequoia, Ubuntu, etc."
+              required
+            />
+          </div>
+          <div>
+            <label
+              for="osVersionNumber"
+              id="labelOSVersionNumber"
+              name="labelOSVersionNumber"
+              >Version # / OSBuild #:</label
+            >
+            <input type="text" name="osVersionNumber" id="osVersionNumber" />
+          </div>
+          <div class="checkbox">
+            <label
+              for="underWarranty"
+              id="labelUnderWarranty"
+              name="labelUnderWarranty"
+              >Under Warranty?</label
+            >
+            <input type="checkbox" name="underWarranty" id="underWarranty" />
+          </div>
 
-          <label
-            for="osVersionNumber"
-            id="labelOSVersionNumber"
-            name="labelOSVersionNumber"
-            >Version / OSBuild [Number]:</label
-          >
-          <input type="text" name="osVersionNumber" id="osVersionNumber" />
-
-          <label for="deviceName" id="labelDeviceName" name="labelDeviceName"
-            >Device Name:</label
-          >
-          <input type="text" name="deviceName" id="deviceName" />
+          <div class="checkbox windows-specific">
+            <label
+              for="biosAndDriversUpToDate"
+              id="labelBiosAndDriversUpToDate"
+              name="labelBiosAndDriversUpToDate"
+              >BIOS and Drivers Up to Date?</label
+            >
+            <input
+              type="checkbox"
+              name="biosAndDriversUpToDate"
+              id="biosAndDriversUpToDate"
+            />
+          </div>
+          <div>
+            <label for="deviceName" id="labelDeviceName" name="labelDeviceName"
+              >Device Name:</label
+            >
+            <input type="text" name="deviceName" id="deviceName" />
+          </div>
         </fieldset>
-        <label
-          for="problemStartDate"
-          name="labelProblemStartDate"
-          id="labelProblemStartDate"
-          >Problem Started (yyyy-mm-dd):</label
-        >
-        <input type="date" name="problemStartDate" id="problemStartDate" />
 
-        <label for="ipAddress" id="labelIPAddress" name="labelIPAddress"
-          >IP address:</label
-        >
-        <input type="text" name="ipAddress" id="ipAddress" />
+        <fieldset>
+          <legend>Other info</legend>
 
-        <!-- NOTE: too many to keep in a list -->
-        <label
-          for="applicationName"
-          id="labelApplicationName"
-          name="labelApplicationName"
-          >Application:</label
-        >
-        <input type="text" name="applicationName" id="applicationName" />
+          <div>
+            <label for="ipAddress" id="labelIPAddress" name="labelIPAddress"
+              >IP address:</label
+            >
+            <input type="text" name="ipAddress" id="ipAddress" />
+          </div>
 
-        <label
-          for="userDescription"
-          id="labelUserDescription"
-          name="labelUserDescription"
-          >User Description:</label
-        >
-        <textarea
-          name="userDescription"
-          id="userDescription"
-          col="100"
-          rows="5"
-        ></textarea>
+          <!-- NOTE: too many to keep in a list -->
+          <div>
+            <label
+              for="applicationName"
+              id="labelApplicationName"
+              name="labelApplicationName"
+              >Application:</label
+            >
+            <input type="text" name="applicationName" id="applicationName" />
+          </div>
+        </fieldset>
 
-        <!-- TODO: show/hide if OS is Windows -->
-        <div class="biosDrivers">
+        <fieldset>
           <label
-            for="biosAndDriversUpToDate"
-            id="labelBiosAndDriversUpToDate"
-            name="labelBiosAndDriversUpToDate"
-            >BIOS and Drivers Up to Date?:</label
+            for="troubleshooting"
+            id="labelTroubleshooting"
+            name="labelTroubleshooting"
+            >Troubleshooting:</label
           >
-          <input
-            type="checkbox"
-            name="biosAndDriversUpToDate"
-            id="biosAndDriversUpToDate"
-          />
-        </div>
 
-        <label
-          for="troubleshooting"
-          id="labelTroubleshooting"
-          name="labelTroubleshooting"
-          >Troubleshooting:</label
-        >
-
-        <textarea
-          name="troubleshooting"
-          id="troubleshooting"
-          col="100"
-          rows="5"
-        ></textarea>
+          <textarea
+            name="troubleshooting"
+            id="troubleshooting"
+            col="100"
+            rows="5"
+          ></textarea>
+        </fieldset>
 
         <div class="form-buttons">
           <button
@@ -318,7 +438,36 @@
       function resetFormAndDate(form, dateElement) {
         form.reset();
         setDefaultDate(dateElement);
+        showWindowsSpecific();
       }
+
+      function isWindows(element) {
+        if (element.value.includes("Windows")) {
+          return true;
+        }
+      }
+      function hideWindowsSpecific(event) {
+        if (!isWindows(event.target)) {
+          //use query selector all since more broadly supported
+          const elementsToHide = document.querySelectorAll(".windows-specific");
+
+          /*
+                  use ES6 for of with HTML collections
+                  https://stackoverflow.com/questions/22754315/for-loop-for-htmlcollection-elements
+                */
+          for (const element of elementsToHide) {
+            element.style.display = "none";
+          }
+        }
+      }
+
+      function showWindowsSpecific() {
+        const elementsToShow = document.querySelectorAll(".windows-specific");
+        for (const element of elementsToShow) {
+          element.style.display = "flex";
+        }
+      }
+
       //load options
       const osList = document.getElementById("osList");
       addOptions(operatingSystems, osList);
@@ -337,7 +486,7 @@
       function generateNotes(event) {
         event.preventDefault();
 
-        //explicitly form values using labels in form as labels in the generated text
+        //set output based on labels & form values rather than manually specifying since may change
 
         const deviceTypeText = `${
           document.getElementById("labelDeviceTypeList").textContent
@@ -354,6 +503,21 @@
         const osVersionNumber = `${
           document.getElementById("labelOSVersionNumber").textContent
         } ${document.getElementById("osVersionNumber").value}`;
+
+        const underWarranty = `${
+          document.getElementById("labelUnderWarranty").textContent
+        } ${document.getElementById("underWarranty").checked}`;
+
+        //https://stackoverflow.com/questions/64433943/can-an-html-checkbox-value-hold-a-boolean-instead-of-a-string
+
+        //if os not Windows, set to n/a
+        const biosAndDriversUpToDateChecked = `${
+          document.getElementById("labelBiosAndDriversUpToDate").textContent
+        } ${
+          isWindows(document.getElementById("osList"))
+            ? document.getElementById("biosAndDriversUpToDate").checked
+            : "n/a"
+        }`;
 
         const deviceName = `${
           document.getElementById("labelDeviceName").textContent
@@ -379,29 +543,24 @@
           document.getElementById("labelTroubleshooting").textContent
         } ${document.getElementById("troubleshooting").value}`;
 
-        //https://stackoverflow.com/questions/64433943/can-an-html-checkbox-value-hold-a-boolean-instead-of-a-string
-        const biosAndDriversUpToDateChecked = `${
-          document.getElementById("labelBiosAndDriversUpToDate").textContent
-        } ${document.getElementById("biosAndDriversUpToDate").checked}`;
-
         notesText = `
-          ${osText}
-          ${osVersion}
-          ${osVersionNumber}
-          ${deviceTypeText}
-          ${deviceName}
-          ${problemStartDate}
-          ${ipAddress}
-          ${applicationName}
-          ${userDescriptionText}
-          ${troubleshootingText}
-          ${biosAndDriversUpToDateChecked}
+                ${osText}
+                ${osVersion}
+                ${osVersionNumber}
+                ${deviceTypeText}
+                ${underWarranty}
+                ${biosAndDriversUpToDateChecked}
+                ${deviceName}
+                ${problemStartDate}
+                ${ipAddress}
+                ${applicationName}
+                ${userDescriptionText}
+                ${troubleshootingText}
 
-        `;
+              `;
 
         console.log(notesText);
-        // event.target.reset();
-        // setDefaultDate(document.getElementById("problemStartDate"));
+
         resetFormAndDate(
           event.target,
           document.getElementById("problemStartDate")
