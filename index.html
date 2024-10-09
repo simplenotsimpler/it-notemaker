@@ -36,11 +36,11 @@
         text-align: center;
       }
 
-      body {
+      /* body {
         display: flex;
         flex-direction: column;
         margin: 0;
-      }
+      } */
 
       /* Reset styles for form elements */
       button,
@@ -57,14 +57,23 @@
         outline: none; /* Reset outline */
       }
 
-      /* Form container */
-      .gather-notes {
-        width: 45%;
-        padding: 1rem;
+      .container {
+        display: flex;
       }
 
-      .gather-notes-form {
+      /* Form container */
+      .gather-notes,
+      .output-notes {
+        width: 45%;
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .gather-notes-form,
+      .output-notes-form {
         width: 100%;
+        height: 100%;
         padding: 1rem;
         border: 2px solid var(--dark-accent-color);
         border-radius: 10px;
@@ -173,6 +182,11 @@
         margin-left: 0.5rem;
       }
 
+      #labelTroubleshooting {
+        text-align: center;
+      }
+
+      /* TODO: update media queries with new styles */
       /* Responsive Breakpoints */
       @media (max-width: 768px) {
         .gather-notes {
@@ -226,6 +240,7 @@
         }
       }
 
+      /* TODO: move this above the media queries ? */
       .required {
         color: red;
         font-weight: 700;
@@ -234,173 +249,196 @@
   </head>
   <body>
     <h1>IT Notemaker</h1>
+    
+    <div class="container">
+      <div class="gather-notes">
+        <h2>Gather Notes</h2>
 
-    <!-- TODO: output on page -->
-    <!-- TODO: add output to clipboard -->
-
-    <div class="gather-notes">
-      <h2>Gather Notes</h2>
-
-      <form id="ts-form" class="gather-notes-form">
-        <fieldset class="user-info">
-          <legend>User info</legend>
-          <div>
+        <!-- TODO: maybe should have only one form? -->
+        <!-- TODO: maybe move the troubleshooting to 2nd column? -->
+        <form id="ts-form" class="gather-notes-form">
+          <fieldset class="user-info">
+            <legend>User info</legend>
+            <div>
+              <label
+                for="problemStartDate"
+                name="labelProblemStartDate"
+                id="labelProblemStartDate"
+                >Problem Started:</label
+              >
+              <input
+                type="date"
+                name="problemStartDate"
+                id="problemStartDate"
+              />
+            </div>
             <label
-              for="problemStartDate"
-              name="labelProblemStartDate"
-              id="labelProblemStartDate"
-              >Problem Started:</label
+              for="userDescription"
+              id="labelUserDescription"
+              name="labelUserDescription"
+              >User Description:</label
             >
-            <input type="date" name="problemStartDate" id="problemStartDate" />
-          </div>
-          <label
-            for="userDescription"
-            id="labelUserDescription"
-            name="labelUserDescription"
-            >User Description:</label
-          >
-          <textarea
-            name="userDescription"
-            id="userDescription"
-            col="100"
-            rows="2"
-          ></textarea>
-        </fieldset>
-        <fieldset class="device-info">
-          <legend>Device Info</legend>
-          <div>
-            <label
-              for="deviceTypeList"
-              id="labelDeviceTypeList"
-              name="labelDeviceTypeList"
-              >Device Type:</label
-            >
-            <!-- populated via JavaScript -->
-            <select name="deviceTypeList" id="deviceTypeList"></select>
-          </div>
+            <textarea
+              name="userDescription"
+              id="userDescription"
+              col="100"
+              rows="2"
+            ></textarea>
+          </fieldset>
+          <fieldset class="device-info">
+            <legend>Device Info</legend>
+            <div>
+              <label
+                for="deviceTypeList"
+                id="labelDeviceTypeList"
+                name="labelDeviceTypeList"
+                >Device Type:</label
+              >
+              <!-- populated via JavaScript -->
+              <select name="deviceTypeList" id="deviceTypeList"></select>
+            </div>
 
-          <!-- 
+            <!-- 
             require the os
             https://stackoverflow.com/questions/25321180/how-do-you-set-up-a-required-select-without-a-default-value-selected
           -->
-          <div>
-            <label for="osList" id="labelOSList" name="labelOSList"
-              >Operating System <span class="required">*</span>:</label
-            >
-            <!-- populated via JavaScript -->
-            <select
-              name="osList"
-              id="osList"
-              required
-              onchange="hideWindowsSpecific(event)"
-            >
-              <option value="">*Select an operating system*</option>
-            </select>
-          </div>
+            <div>
+              <label for="osList" id="labelOSList" name="labelOSList"
+                >Operating System <span class="required">*</span>:</label
+              >
+              <!-- populated via JavaScript -->
+              <select
+                name="osList"
+                id="osList"
+                required
+                onchange="hideWindowsSpecific(event)"
+              >
+                <option value="">*Select an operating system*</option>
+              </select>
+            </div>
 
-          <div>
-            <label for="osVersion" id="labelOSVersion" name="labelOSVersion"
-              >Version/flavor <span class="required">*</span>:</label
-            >
-            <input
-              type="text"
-              name="osVersion"
-              id="osVersion"
-              placeholder="22H2, 23H2, Sequoia, Ubuntu, etc."
-              required
-            />
-          </div>
-          <div>
+            <div>
+              <label for="osVersion" id="labelOSVersion" name="labelOSVersion"
+                >Version/flavor <span class="required">*</span>:</label
+              >
+              <input
+                type="text"
+                name="osVersion"
+                id="osVersion"
+                placeholder="22H2, 23H2, Sequoia, Ubuntu, etc."
+                required
+              />
+            </div>
+            <div>
+              <label
+                for="osVersionNumber"
+                id="labelOSVersionNumber"
+                name="labelOSVersionNumber"
+                >Version # / OSBuild #:</label
+              >
+              <input type="text" name="osVersionNumber" id="osVersionNumber" />
+            </div>
+            <div class="checkbox">
+              <label
+                for="underWarranty"
+                id="labelUnderWarranty"
+                name="labelUnderWarranty"
+                >Under Warranty?</label
+              >
+              <input type="checkbox" name="underWarranty" id="underWarranty" />
+            </div>
+
+            <div class="checkbox windows-specific">
+              <label
+                for="biosAndDriversUpToDate"
+                id="labelBiosAndDriversUpToDate"
+                name="labelBiosAndDriversUpToDate"
+                >BIOS and Drivers Up to Date?</label
+              >
+              <input
+                type="checkbox"
+                name="biosAndDriversUpToDate"
+                id="biosAndDriversUpToDate"
+              />
+            </div>
+            <div>
+              <label
+                for="deviceName"
+                id="labelDeviceName"
+                name="labelDeviceName"
+                >Device Name:</label
+              >
+              <input type="text" name="deviceName" id="deviceName" />
+            </div>
+          </fieldset>
+
+          <fieldset>
+            <legend>Other info</legend>
+
+            <div>
+              <label for="ipAddress" id="labelIPAddress" name="labelIPAddress"
+                >IP address:</label
+              >
+              <input type="text" name="ipAddress" id="ipAddress" />
+            </div>
+
+            <!-- NOTE: too many to keep in a list -->
+            <div>
+              <label
+                for="applicationName"
+                id="labelApplicationName"
+                name="labelApplicationName"
+                >Application:</label
+              >
+              <input type="text" name="applicationName" id="applicationName" />
+            </div>
+          </fieldset>
+
+          <fieldset>
             <label
-              for="osVersionNumber"
-              id="labelOSVersionNumber"
-              name="labelOSVersionNumber"
-              >Version # / OSBuild #:</label
+              for="troubleshooting"
+              id="labelTroubleshooting"
+              name="labelTroubleshooting"
+              >-- Troubleshooting Done --</label
             >
-            <input type="text" name="osVersionNumber" id="osVersionNumber" />
-          </div>
-          <div class="checkbox">
-            <label
-              for="underWarranty"
-              id="labelUnderWarranty"
-              name="labelUnderWarranty"
-              >Under Warranty?</label
-            >
-            <input type="checkbox" name="underWarranty" id="underWarranty" />
-          </div>
 
-          <div class="checkbox windows-specific">
-            <label
-              for="biosAndDriversUpToDate"
-              id="labelBiosAndDriversUpToDate"
-              name="labelBiosAndDriversUpToDate"
-              >BIOS and Drivers Up to Date?</label
-            >
-            <input
-              type="checkbox"
-              name="biosAndDriversUpToDate"
-              id="biosAndDriversUpToDate"
-            />
-          </div>
-          <div>
-            <label for="deviceName" id="labelDeviceName" name="labelDeviceName"
-              >Device Name:</label
-            >
-            <input type="text" name="deviceName" id="deviceName" />
-          </div>
-        </fieldset>
+            <textarea
+              name="troubleshooting"
+              id="troubleshooting"
+              col="100"
+              rows="5"
+            ></textarea>
+          </fieldset>
 
-        <fieldset>
-          <legend>Other info</legend>
-
-          <div>
-            <label for="ipAddress" id="labelIPAddress" name="labelIPAddress"
-              >IP address:</label
+          <div class="form-buttons">
+            <button
+              type="button"
+              class="btn-reset"
+              onclick="resetFormAndDate(this.form, document.getElementById('problemStartDate'))"
             >
-            <input type="text" name="ipAddress" id="ipAddress" />
+              Clear
+            </button>
+            <button type="submit" class="btn-submit">Generate Notes</button>
           </div>
+        </form>
+      </div>
 
-          <!-- NOTE: too many to keep in a list -->
-          <div>
-            <label
-              for="applicationName"
-              id="labelApplicationName"
-              name="labelApplicationName"
-              >Application:</label
-            >
-            <input type="text" name="applicationName" id="applicationName" />
-          </div>
-        </fieldset>
-
-        <fieldset>
-          <label
-            for="troubleshooting"
-            id="labelTroubleshooting"
-            name="labelTroubleshooting"
-            >Troubleshooting:</label
+      <div class="output-notes">
+        <h2>Output Notes</h2>
+        <form id="outputForm" class="output-notes-form">
+          <label for="outputNotes" id="labelOutputNotes" name="labelOutputNotes"
+            >Notes:</label
           >
 
           <textarea
-            name="troubleshooting"
-            id="troubleshooting"
+            name="outputNotes"
+            id="outputNotes"
             col="100"
-            rows="5"
+            rows="25"
           ></textarea>
-        </fieldset>
-
-        <div class="form-buttons">
-          <button
-            type="button"
-            class="btn-reset"
-            onclick="resetFormAndDate(this.form, document.getElementById('problemStartDate'))"
-          >
-            Clear
-          </button>
-          <button type="submit" class="btn-submit">Generate Notes</button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
-
     <script>
       //data arrays
 
@@ -465,6 +503,21 @@
         const elementsToShow = document.querySelectorAll(".windows-specific");
         for (const element of elementsToShow) {
           element.style.display = "flex";
+        }
+      }
+
+      // https://www.freecodecamp.org/news/copy-text-to-clipboard-javascript/
+      async function copyContent(text) {
+        try {
+          document.getElementById("outputNotes").value = text;
+          await navigator.clipboard.writeText(text);
+          console.log("Content copied to clipboard");
+
+          //note: text is copied to clipboard, but won't show in the alert
+          // TODO: popover that says copied?
+          // alert("copied text", text);
+        } catch (err) {
+          console.error("Failed to copy: ", err);
         }
       }
 
@@ -541,26 +594,30 @@
 
         const troubleshootingText = `${
           document.getElementById("labelTroubleshooting").textContent
-        } ${document.getElementById("troubleshooting").value}`;
+        } 
+          ${document.getElementById("troubleshooting").value}`;
 
         notesText = `
-                ${osText}
-                ${osVersion}
-                ${osVersionNumber}
-                ${deviceTypeText}
-                ${underWarranty}
-                ${biosAndDriversUpToDateChecked}
-                ${deviceName}
-                ${problemStartDate}
-                ${ipAddress}
-                ${applicationName}
-                ${userDescriptionText}
-                ${troubleshootingText}
+        ${osText}
+        ${osVersion}
+        ${osVersionNumber}
+        ${deviceTypeText}
+        ${underWarranty}
+        ${biosAndDriversUpToDateChecked}
+        ${deviceName}
+        ${problemStartDate}
+        ${ipAddress}
+        ${applicationName}
+        ${userDescriptionText}
+        
+        ${troubleshootingText}
 
               `;
 
         console.log(notesText);
 
+        copyContent(notesText);
+        //TODO: maybe don't reset yet?
         resetFormAndDate(
           event.target,
           document.getElementById("problemStartDate")
