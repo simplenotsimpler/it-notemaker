@@ -196,6 +196,27 @@
         font-weight: 700;
       }
 
+      /* popover styling */
+
+      [popover] {
+        font-weight: var(--light-bold);
+        padding: 1rem 1.5rem;
+        border-radius: 1rem;
+
+        line-height: 1.4;
+        top: 2rem;
+        margin: 0 auto;
+      }
+      .failure {
+        background-color: var(--dark-accent-color);
+        color: var(--light-accent-color);
+      }
+
+      .success {
+        background: var(--primary-color);
+        color: var(--light-color);
+      }
+
       @media (max-width: 768px) {
         .notemaker-form {
           flex-direction: column;
@@ -404,6 +425,7 @@
             Clear
           </button>
           <button type="submit" class="btn-submit">Generate Notes</button>
+          <div id="tsPopover" popover></div>
         </div>
 
         <fieldset class="output-notes">
@@ -454,6 +476,7 @@
         form.reset();
         setDefaultDate(dateElement);
         showWindowsSpecific();
+        showToast("success", "Form cleared!");
       }
 
       function isWindows(element) {
@@ -483,6 +506,33 @@
         }
       }
 
+      /*
+        popover stuff  
+        NOTE: because this is in a form, need to use JavaScript
+        does not bubble up 
+      
+      */
+      function showToast(result, msg) {
+        const popover = document.getElementById("tsPopover");
+
+        if (result === "success" || result === "failure") {
+          popover.classList.add(result);
+        } else {
+          return;
+        }
+
+        // Give the toast its text content
+        popover.textContent = msg;
+
+        // Show the popover
+        popover.showPopover();
+
+        // Remove the toast again after 4 seconds
+        setTimeout(() => {
+          popover.hidePopover();
+        }, 2000);
+      }
+
       // https://www.freecodecamp.org/news/copy-text-to-clipboard-javascript/
       async function copyContent(text) {
         try {
@@ -490,11 +540,12 @@
           await navigator.clipboard.writeText(text);
           console.log("Content copied to clipboard");
 
-          //note: text is copied to clipboard, but won't show in the alert
-          // TODO: popover that says copied?
-          // alert("copied text", text);
+          showToast("success", "Content copied to clipboard");
+          //test not success or failure
+          // showToast("oops", "oops");
         } catch (err) {
           console.error("Failed to copy: ", err);
+          showToast("failure", `Failed to copy: ${err}`);
         }
       }
 
