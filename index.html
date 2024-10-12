@@ -594,11 +594,6 @@
         console.log(notesText);
 
         copyContent(notesText);
-        //TODO: maybe don't reset yet?
-        resetFormAndDate(
-          event.target,
-          document.getElementById("problemStartDate")
-        );
       }
 
       tsForm.addEventListener(`submit`, generateNotes);
