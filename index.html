@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>IT Notemaker</title>
-    <!-- https://www.geeksforgeeks.org/how-to-create-a-stacked-form-using-css/ -->
+
     <style>
       /* Reset and basic styling */
       *,
@@ -34,13 +34,8 @@
 
       h1 {
         text-align: center;
+        margin-bottom: 1.5rem;
       }
-
-      /* body {
-        display: flex;
-        flex-direction: column;
-        margin: 0;
-      } */
 
       /* Reset styles for form elements */
       button,
@@ -50,42 +45,34 @@
         font-family: inherit;
         font-size: 100%;
         background-color: transparent;
-        margin: 0; /* Ensure no extra margin */
-        padding: 0; /* Reset padding */
-        border: none; /* Reset border */
-        box-shadow: none; /* Reset box shadow */
-        outline: none; /* Reset outline */
+        margin: 0;
+        padding: 0;
+        border: none;
+        box-shadow: none;
+        outline: none;
       }
 
-      .container {
+      .notemaker-form {
         display: flex;
+        justify-content: center;
+        gap: 1rem;
       }
 
-      /* Form container */
-      .gather-notes,
-      .output-notes {
+      .col {
         width: 45%;
         padding: 1rem;
         display: flex;
         flex-direction: column;
-      }
-
-      .gather-notes-form,
-      .output-notes-form {
-        width: 100%;
-        height: 100%;
-        padding: 1rem;
         border: 2px solid var(--dark-accent-color);
         border-radius: 10px;
       }
 
-      .gather-notes-form h2,
+      .notemaker-form h2,
       legend {
         text-align: center;
         font-weight: var(--light-bold);
       }
 
-      /* Fieldset */
       fieldset {
         padding: 0.5rem;
         margin-bottom: 1rem;
@@ -108,7 +95,6 @@
         flex: 1;
       }
 
-      /* Labels, inputs, selects, and textareas */
       label,
       input,
       select,
@@ -125,9 +111,9 @@
       label {
         margin-bottom: 0.5rem;
         font-weight: var(--light-bold);
-        line-height: 2.5rem; /* Adjust to match the input height */
+        line-height: 2.5rem;
         background: none;
-        border: none; /* Remove borders */
+        border: none;
         padding: 0;
       }
 
@@ -139,10 +125,11 @@
         font-size: 90%;
       }
 
-      /* Form buttons */
       .form-buttons {
         display: flex;
         justify-content: space-between;
+        margin-bottom: 1rem;
+        margin-top: 0.5rem;
       }
 
       button {
@@ -182,15 +169,40 @@
         margin-left: 0.5rem;
       }
 
-      #labelTroubleshooting {
+      #labelTroubleshooting,
+      #labelOutputNotes {
         text-align: center;
       }
 
-      /* TODO: update media queries with new styles */
-      /* Responsive Breakpoints */
+      /* 
+        min-height so sizes better on small screens
+        does not work with percentages for textarea though
+       */
+      .ts-notes,
+      .output-notes {
+        min-height: 32rem;
+        height: 45%;
+      }
+
+      /* height 90% of the fieldset */
+      #troubleshooting,
+      #outputNotes {
+        height: 90%;
+        min-height: 25rem;
+      }
+
+      .required {
+        color: red;
+        font-weight: 700;
+      }
+
       @media (max-width: 768px) {
-        .gather-notes {
-          width: 70%; /* Increase width for medium devices */
+        .notemaker-form {
+          flex-direction: column;
+        }
+
+        .col {
+          width: 100%;
         }
 
         .form-buttons {
@@ -199,246 +211,211 @@
         }
 
         button {
-          width: 100%; /* Full-width buttons on medium devices */
+          width: 100%;
           margin-bottom: 1rem;
-        }
-
-        /* Adjusting fieldset div for smaller screens */
-        fieldset div {
-          flex-direction: column;
-          align-items: flex-start;
         }
 
         label,
         input,
         select,
         textarea {
-          width: 100%; /* Ensure full width on small screens */
+          width: 100%;
           margin-bottom: 1rem;
         }
       }
 
       @media (max-width: 480px) {
-        .gather-notes {
-          width: 90%; /* Full width for small devices */
+        .col {
+          width: 90%;
           padding: 0.5rem;
         }
 
         fieldset {
-          padding: 0.25rem; /* Reduce padding for small devices */
+          padding: 0.25rem;
         }
 
         label,
         input,
         select,
         textarea {
-          padding: 0.5rem; /* Reduce padding on small devices */
+          padding: 0.5rem;
         }
 
         button {
-          padding: 0.5rem; /* Reduce button padding on small devices */
+          padding: 0.5rem;
         }
-      }
-
-      /* TODO: move this above the media queries ? */
-      .required {
-        color: red;
-        font-weight: 700;
       }
     </style>
   </head>
   <body>
     <h1>IT Notemaker</h1>
-    
-    <div class="container">
-      <div class="gather-notes">
+
+    <form id="ts-form" class="notemaker-form">
+      <div class="col">
         <h2>Gather Notes</h2>
-
-        <!-- TODO: maybe should have only one form? -->
-        <!-- TODO: maybe move the troubleshooting to 2nd column? -->
-        <form id="ts-form" class="gather-notes-form">
-          <fieldset class="user-info">
-            <legend>User info</legend>
-            <div>
-              <label
-                for="problemStartDate"
-                name="labelProblemStartDate"
-                id="labelProblemStartDate"
-                >Problem Started:</label
-              >
-              <input
-                type="date"
-                name="problemStartDate"
-                id="problemStartDate"
-              />
-            </div>
+        <fieldset class="user-info">
+          <legend>User info</legend>
+          <div>
             <label
-              for="userDescription"
-              id="labelUserDescription"
-              name="labelUserDescription"
-              >User Description:</label
+              for="problemStartDate"
+              name="labelProblemStartDate"
+              id="labelProblemStartDate"
+              >Problem Started:</label
             >
-            <textarea
-              name="userDescription"
-              id="userDescription"
-              col="100"
-              rows="2"
-            ></textarea>
-          </fieldset>
-          <fieldset class="device-info">
-            <legend>Device Info</legend>
-            <div>
-              <label
-                for="deviceTypeList"
-                id="labelDeviceTypeList"
-                name="labelDeviceTypeList"
-                >Device Type:</label
-              >
-              <!-- populated via JavaScript -->
-              <select name="deviceTypeList" id="deviceTypeList"></select>
-            </div>
+            <input type="date" name="problemStartDate" id="problemStartDate" />
+          </div>
+          <label
+            for="userDescription"
+            id="labelUserDescription"
+            name="labelUserDescription"
+            >User Description:</label
+          >
+          <textarea
+            name="userDescription"
+            id="userDescription"
+            col="100"
+            rows="2"
+          ></textarea>
+        </fieldset>
+        <fieldset class="device-info">
+          <legend>Device Info</legend>
+          <div>
+            <label
+              for="deviceTypeList"
+              id="labelDeviceTypeList"
+              name="labelDeviceTypeList"
+              >Device Type:</label
+            >
+            <!-- populated via JavaScript -->
+            <select name="deviceTypeList" id="deviceTypeList"></select>
+          </div>
 
-            <!-- 
+          <!-- 
             require the os
             https://stackoverflow.com/questions/25321180/how-do-you-set-up-a-required-select-without-a-default-value-selected
           -->
-            <div>
-              <label for="osList" id="labelOSList" name="labelOSList"
-                >Operating System <span class="required">*</span>:</label
-              >
-              <!-- populated via JavaScript -->
-              <select
-                name="osList"
-                id="osList"
-                required
-                onchange="hideWindowsSpecific(event)"
-              >
-                <option value="">*Select an operating system*</option>
-              </select>
-            </div>
-
-            <div>
-              <label for="osVersion" id="labelOSVersion" name="labelOSVersion"
-                >Version/flavor <span class="required">*</span>:</label
-              >
-              <input
-                type="text"
-                name="osVersion"
-                id="osVersion"
-                placeholder="22H2, 23H2, Sequoia, Ubuntu, etc."
-                required
-              />
-            </div>
-            <div>
-              <label
-                for="osVersionNumber"
-                id="labelOSVersionNumber"
-                name="labelOSVersionNumber"
-                >Version # / OSBuild #:</label
-              >
-              <input type="text" name="osVersionNumber" id="osVersionNumber" />
-            </div>
-            <div class="checkbox">
-              <label
-                for="underWarranty"
-                id="labelUnderWarranty"
-                name="labelUnderWarranty"
-                >Under Warranty?</label
-              >
-              <input type="checkbox" name="underWarranty" id="underWarranty" />
-            </div>
-
-            <div class="checkbox windows-specific">
-              <label
-                for="biosAndDriversUpToDate"
-                id="labelBiosAndDriversUpToDate"
-                name="labelBiosAndDriversUpToDate"
-                >BIOS and Drivers Up to Date?</label
-              >
-              <input
-                type="checkbox"
-                name="biosAndDriversUpToDate"
-                id="biosAndDriversUpToDate"
-              />
-            </div>
-            <div>
-              <label
-                for="deviceName"
-                id="labelDeviceName"
-                name="labelDeviceName"
-                >Device Name:</label
-              >
-              <input type="text" name="deviceName" id="deviceName" />
-            </div>
-          </fieldset>
-
-          <fieldset>
-            <legend>Other info</legend>
-
-            <div>
-              <label for="ipAddress" id="labelIPAddress" name="labelIPAddress"
-                >IP address:</label
-              >
-              <input type="text" name="ipAddress" id="ipAddress" />
-            </div>
-
-            <!-- NOTE: too many to keep in a list -->
-            <div>
-              <label
-                for="applicationName"
-                id="labelApplicationName"
-                name="labelApplicationName"
-                >Application:</label
-              >
-              <input type="text" name="applicationName" id="applicationName" />
-            </div>
-          </fieldset>
-
-          <fieldset>
-            <label
-              for="troubleshooting"
-              id="labelTroubleshooting"
-              name="labelTroubleshooting"
-              >-- Troubleshooting Done --</label
+          <div>
+            <label for="osList" id="labelOSList" name="labelOSList"
+              >Operating System <span class="required">*</span>:</label
             >
-
-            <textarea
-              name="troubleshooting"
-              id="troubleshooting"
-              col="100"
-              rows="5"
-            ></textarea>
-          </fieldset>
-
-          <div class="form-buttons">
-            <button
-              type="button"
-              class="btn-reset"
-              onclick="resetFormAndDate(this.form, document.getElementById('problemStartDate'))"
+            <!-- populated via JavaScript -->
+            <select
+              name="osList"
+              id="osList"
+              required
+              onchange="hideWindowsSpecific(event)"
             >
-              Clear
-            </button>
-            <button type="submit" class="btn-submit">Generate Notes</button>
+              <option value="">*Select an operating system*</option>
+            </select>
           </div>
-        </form>
+
+          <div>
+            <label for="osVersion" id="labelOSVersion" name="labelOSVersion"
+              >Version/flavor <span class="required">*</span>:</label
+            >
+            <input
+              type="text"
+              name="osVersion"
+              id="osVersion"
+              placeholder="22H2, 23H2, Sequoia, Ubuntu, etc."
+              required
+            />
+          </div>
+          <div>
+            <label
+              for="osVersionNumber"
+              id="labelOSVersionNumber"
+              name="labelOSVersionNumber"
+              >Version # / OSBuild #:</label
+            >
+            <input type="text" name="osVersionNumber" id="osVersionNumber" />
+          </div>
+          <div class="checkbox">
+            <label
+              for="underWarranty"
+              id="labelUnderWarranty"
+              name="labelUnderWarranty"
+              >Under Warranty?</label
+            >
+            <input type="checkbox" name="underWarranty" id="underWarranty" />
+          </div>
+
+          <div class="checkbox windows-specific">
+            <label
+              for="biosAndDriversUpToDate"
+              id="labelBiosAndDriversUpToDate"
+              name="labelBiosAndDriversUpToDate"
+              >BIOS and Drivers Up to Date?</label
+            >
+            <input
+              type="checkbox"
+              name="biosAndDriversUpToDate"
+              id="biosAndDriversUpToDate"
+            />
+          </div>
+          <div>
+            <label for="deviceName" id="labelDeviceName" name="labelDeviceName"
+              >Device Name:</label
+            >
+            <input type="text" name="deviceName" id="deviceName" />
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Other info</legend>
+
+          <div>
+            <label for="ipAddress" id="labelIPAddress" name="labelIPAddress"
+              >IP address:</label
+            >
+            <input type="text" name="ipAddress" id="ipAddress" />
+          </div>
+
+          <!-- NOTE: too many to keep in a list -->
+          <div>
+            <label
+              for="applicationName"
+              id="labelApplicationName"
+              name="labelApplicationName"
+              >Application:</label
+            >
+            <input type="text" name="applicationName" id="applicationName" />
+          </div>
+        </fieldset>
       </div>
 
-      <div class="output-notes">
-        <h2>Output Notes</h2>
-        <form id="outputForm" class="output-notes-form">
-          <label for="outputNotes" id="labelOutputNotes" name="labelOutputNotes"
-            >Notes:</label
+      <div class="col">
+        <fieldset class="ts-notes">
+          <label
+            for="troubleshooting"
+            id="labelTroubleshooting"
+            name="labelTroubleshooting"
+            >-- Troubleshooting Done --</label
           >
 
-          <textarea
-            name="outputNotes"
-            id="outputNotes"
-            col="100"
-            rows="25"
-          ></textarea>
-        </form>
+          <textarea name="troubleshooting" id="troubleshooting"></textarea>
+        </fieldset>
+        <div class="form-buttons">
+          <button
+            type="button"
+            class="btn-reset"
+            onclick="resetFormAndDate(this.form, document.getElementById('problemStartDate'))"
+          >
+            Clear
+          </button>
+          <button type="submit" class="btn-submit">Generate Notes</button>
+        </div>
+
+        <fieldset class="output-notes">
+          <label for="outputNotes" id="labelOutputNotes" name="labelOutputNotes"
+            >Output Notes:</label
+          >
+
+          <textarea name="outputNotes" id="outputNotes"></textarea>
+        </fieldset>
       </div>
-    </div>
+    </form>
+
     <script>
       //data arrays
 
