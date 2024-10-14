@@ -308,7 +308,11 @@
               >Device Type:</label
             >
             <!-- populated via JavaScript -->
-            <select name="deviceTypeList" id="deviceTypeList"></select>
+            <select
+              name="deviceTypeList"
+              id="deviceTypeList"
+              onchange="setOsByDevice(event)"
+            ></select>
           </div>
 
           <!-- 
@@ -316,8 +320,6 @@
             https://stackoverflow.com/questions/25321180/how-do-you-set-up-a-required-select-without-a-default-value-selected
           -->
 
-          <!-- TODO: make os change based on device selected, e.g. printer > n/a, iOS Device > iOS, etc.  -->
-          <!-- TODO: add Windows Mobile b/c handscanners -->
           <div>
             <label for="osList" id="labelOSList" name="labelOSList"
               >Operating System:</label
@@ -332,7 +334,6 @@
             </select>
           </div>
 
-          <!-- TODO: make required if PC -->
           <div>
             <label for="osVersion" id="labelOSVersion" name="labelOSVersion"
               >Version/flavor:</label
@@ -451,6 +452,7 @@
         "Printer",
       ];
 
+      /* Some handscanners use Windows Mobile, esp. if secondhand */
       operatingSystems = [
         "Windows 10",
         "Windows 11",
@@ -458,6 +460,7 @@
         "iOS",
         "Android",
         "Linux",
+        "Windows Mobile",
       ];
 
       //general functions
@@ -508,11 +511,26 @@
         }
       }
 
+      function setOsByDevice(event) {
+        const result = event.target.value;
+        const osList = document.getElementById("osList");
+        if (result.includes("iOS")) {
+          osList.value = "iOS";
+        } else if (result.includes("Android")) {
+          osList.value = "Android";
+          //change back
+        } else if (!result.includes("iOS") || !result.includes("Android")) {
+          osList.value = "";
+        } else {
+          console.log("didn't find it");
+        }
+      }
+
       /*
-        popover stuff  
+        popover stuff
         NOTE: because this is in a form, need to use JavaScript
-        does not bubble up 
-      
+        does not bubble up
+
       */
       function showToast(result, msg) {
         const popover = document.getElementById("tsPopover");
@@ -624,9 +642,10 @@
 
         const troubleshootingText = `${
           document.getElementById("labelTroubleshooting").textContent
-        } 
+        }
           ${document.getElementById("troubleshooting").value}`;
 
+        /* TODO: conditionally show if not blank */
         notesText = `
         ${osText}
         ${osVersion}
@@ -639,7 +658,7 @@
         ${ipAddress}
         ${applicationName}
         ${userDescriptionText}
-        
+
         ${troubleshootingText}
 
               `;
