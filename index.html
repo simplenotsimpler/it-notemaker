@@ -315,31 +315,33 @@
             require the os
             https://stackoverflow.com/questions/25321180/how-do-you-set-up-a-required-select-without-a-default-value-selected
           -->
+
+          <!-- TODO: make os change based on device selected, e.g. printer > n/a, iOS Device > iOS, etc.  -->
+          <!-- TODO: add Windows Mobile b/c handscanners -->
           <div>
             <label for="osList" id="labelOSList" name="labelOSList"
-              >Operating System <span class="required">*</span>:</label
+              >Operating System:</label
             >
             <!-- populated via JavaScript -->
             <select
               name="osList"
               id="osList"
-              required
               onchange="hideWindowsSpecific(event)"
             >
-              <option value="">*Select an operating system*</option>
+              <option value="">N/A</option>
             </select>
           </div>
 
+          <!-- TODO: make required if PC -->
           <div>
             <label for="osVersion" id="labelOSVersion" name="labelOSVersion"
-              >Version/flavor <span class="required">*</span>:</label
+              >Version/flavor:</label
             >
             <input
               type="text"
               name="osVersion"
               id="osVersion"
               placeholder="22H2, 23H2, Sequoia, Ubuntu, etc."
-              required
             />
           </div>
           <div>
