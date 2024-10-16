@@ -584,84 +584,113 @@
       const tsForm = document.querySelector(`#ts-form`);
 
       let notesText = ``;
+      let notesTextRaw = ``;
       function generateNotes(event) {
         event.preventDefault();
 
         //set output based on labels & form values rather than manually specifying since may change
 
-        const deviceTypeText = `${
-          document.getElementById("labelDeviceTypeList").textContent
-        } ${document.getElementById("deviceTypeList").value}`;
+        const problemStartDate = document.getElementById("problemStartDate")
+          .value
+          ? `${document.getElementById("labelProblemStartDate").textContent} ${
+              document.getElementById("problemStartDate").value
+            }`
+          : "";
 
-        const osText = `${document.getElementById("labelOSList").textContent} ${
-          document.getElementById("osList").value
-        }`;
+        const userDescriptionText = document.getElementById("userDescription")
+          .value
+          ? `${document.getElementById("labelUserDescription").textContent} ${
+              document.getElementById("userDescription").value
+            }`
+          : "";
 
-        const osVersion = `${
-          document.getElementById("labelOSVersion").textContent
-        } ${document.getElementById("osVersion").value}`;
+        const deviceTypeText = document.getElementById("osList").value
+          ? `${document.getElementById("labelDeviceTypeList").textContent} ${
+              document.getElementById("deviceTypeList").value
+            }`
+          : "";
 
-        const osVersionNumber = `${
-          document.getElementById("labelOSVersionNumber").textContent
-        } ${document.getElementById("osVersionNumber").value}`;
+        const osText = document.getElementById("osList").value
+          ? `${document.getElementById("labelOSList").textContent} ${
+              document.getElementById("osList").value
+            }`
+          : "";
 
-        const underWarranty = `${
-          document.getElementById("labelUnderWarranty").textContent
-        } ${document.getElementById("underWarranty").checked}`;
+        const osVersion = document.getElementById("osVersion").value
+          ? `${document.getElementById("labelOSVersion").textContent} ${
+              document.getElementById("osVersion").value
+            }`
+          : "";
+
+        const osVersionNumber = document.getElementById("osVersionNumber").value
+          ? `${document.getElementById("labelOSVersionNumber").textContent} ${
+              document.getElementById("osVersionNumber").value
+            }`
+          : "";
+
+        const underWarranty = document.getElementById("underWarranty").checked
+          ? `${document.getElementById("labelUnderWarranty").textContent} ${
+              document.getElementById("underWarranty").checked
+            }`
+          : "";
 
         //https://stackoverflow.com/questions/64433943/can-an-html-checkbox-value-hold-a-boolean-instead-of-a-string
 
-        //if os not Windows, set to n/a
-        const biosAndDriversUpToDateChecked = `${
-          document.getElementById("labelBiosAndDriversUpToDate").textContent
-        } ${
-          isWindows(document.getElementById("osList"))
-            ? document.getElementById("biosAndDriversUpToDate").checked
-            : "n/a"
-        }`;
+        //if os not Windows, set to empty string
+        const biosAndDriversUpToDateChecked = isWindows(
+          document.getElementById("osList")
+        )
+          ? `${
+              document.getElementById("labelBiosAndDriversUpToDate").textContent
+            } ${document.getElementById("biosAndDriversUpToDate").checked}`
+          : "";
 
-        const deviceName = `${
-          document.getElementById("labelDeviceName").textContent
-        } ${document.getElementById("deviceName").value}`;
+        const deviceName = document.getElementById("deviceName").value
+          ? `${document.getElementById("labelDeviceName").textContent} ${
+              document.getElementById("deviceName").value
+            }`
+          : "";
 
-        const problemStartDate = `${
-          document.getElementById("labelProblemStartDate").textContent
-        } ${document.getElementById("problemStartDate").value}`;
+        const ipAddress = document.getElementById("ipAddress").value
+          ? `${document.getElementById("labelIPAddress").textContent} ${
+              document.getElementById("ipAddress").value
+            }`
+          : "";
 
-        const ipAddress = `${
-          document.getElementById("labelIPAddress").textContent
-        } ${document.getElementById("ipAddress").value}`;
-
-        const applicationName = `${
-          document.getElementById("labelApplicationName").textContent
-        } ${document.getElementById("applicationName").value}`;
-
-        const userDescriptionText = `${
-          document.getElementById("labelUserDescription").textContent
-        } ${document.getElementById("userDescription").value}`;
+        const applicationName = document.getElementById("applicationName").value
+          ? `${document.getElementById("labelApplicationName").textContent} ${
+              document.getElementById("applicationName").value
+            }`
+          : "";
 
         const troubleshootingText = `${
           document.getElementById("labelTroubleshooting").textContent
         }
           ${document.getElementById("troubleshooting").value}`;
 
-        /* TODO: conditionally show if not blank */
-        notesText = `
+        notesTextRaw = `
+        ${problemStartDate}
+        ${userDescriptionText}
+        ${deviceTypeText}
         ${osText}
         ${osVersion}
         ${osVersionNumber}
-        ${deviceTypeText}
         ${underWarranty}
         ${biosAndDriversUpToDateChecked}
         ${deviceName}
-        ${problemStartDate}
         ${ipAddress}
         ${applicationName}
-        ${userDescriptionText}
+        `;
 
-        ${troubleshootingText}
+        /* 
+          remove the blank lines
+          https://stackoverflow.com/questions/16369642/javascript-how-to-use-a-regular-expression-to-remove-blank-lines-from-a-string 
+          keep troubleshooting separate so can have 2 lines before it
+          */
+        notesTextRaw = notesTextRaw.replace(/^\s*[\r\n]/gm, "");
 
-              `;
+        notesText = `${notesTextRaw}
+        ${troubleshootingText}`;
 
         console.log(notesText);
 
