@@ -15,6 +15,8 @@
         box-sizing: border-box;
       }
 
+      /* MAYBE: themable, dark mode, etc.? */
+      /* NOTE: change colors here to change for entire page */
       :root {
         --primary-color: mediumvioletred;
         --light-color: #fff;
@@ -407,6 +409,7 @@
           </div>
         </fieldset>
       </div>
+      <!-- MAYBE: Server vs. client vs. other computer type questions? -->
 
       <div class="col">
         <fieldset class="ts-notes">
@@ -442,6 +445,8 @@
     </form>
 
     <script>
+      /* MAYBE: potential future enhancement - use objects/array of objects to dyanmically build form and labels */
+
       //data arrays
 
       deviceTypes = [
@@ -530,7 +535,6 @@
         popover stuff
         NOTE: because this is in a form, need to use JavaScript
         does not bubble up
-
       */
       function showToast(result, msg) {
         const popover = document.getElementById("tsPopover");
