@@ -2,6 +2,9 @@
 
 A self-contained tool to facilitate the organized documentation of tech support issues.
 
-# License
+## Live Demo
+https://simplenotsimpler.github.io/it-notemaker/
+
+## License
 
 This project is [MIT licensed](./LICENSE).
