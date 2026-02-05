@@ -316,6 +316,12 @@
         <fieldset class="device-info">
           <legend>Device Info</legend>
           <div>
+            <label for="deviceName" id="labelDeviceName" name="labelDeviceName"
+              >Device Name:</label
+            >
+            <input type="text" name="deviceName" id="deviceName" />
+          </div>          
+          <div>
             <label
               for="deviceTypeList"
               id="labelDeviceTypeList"
@@ -394,12 +400,7 @@
               id="biosAndDriversUpToDate"
             />
           </div>
-          <div>
-            <label for="deviceName" id="labelDeviceName" name="labelDeviceName"
-              >Device Name:</label
-            >
-            <input type="text" name="deviceName" id="deviceName" />
-          </div>
+
         </fieldset>
 
         <fieldset>
@@ -640,7 +641,13 @@
           ? `${document.getElementById("labelInitialDiagnosis").textContent} ${
               document.getElementById("initialDiagnosis").value
             }`
-          : "";          
+          : "";
+
+        const deviceName = document.getElementById("deviceName").value
+          ? `${document.getElementById("labelDeviceName").textContent} ${
+              document.getElementById("deviceName").value
+            }`
+          : "";             
 
         const deviceTypeText = document.getElementById("osList").value
           ? `${document.getElementById("labelDeviceTypeList").textContent} ${
@@ -683,11 +690,7 @@
             } ${document.getElementById("biosAndDriversUpToDate").checked}`
           : "";
 
-        const deviceName = document.getElementById("deviceName").value
-          ? `${document.getElementById("labelDeviceName").textContent} ${
-              document.getElementById("deviceName").value
-            }`
-          : "";
+
 
         const ipAddress = document.getElementById("ipAddress").value
           ? `${document.getElementById("labelIPAddress").textContent} ${
@@ -716,13 +719,13 @@
         ${problemStartDate}
         ${userDescriptionText}
         ${initialDiagnosisText}        
+        ${deviceName}
         ${deviceTypeText}
         ${osText}
         ${osVersion}
         ${osVersionNumber}
         ${underWarranty}
         ${biosAndDriversUpToDateChecked}
-        ${deviceName}
         ${ipAddress}
         ${applicationName}
         `;
