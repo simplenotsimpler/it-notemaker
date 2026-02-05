@@ -705,6 +705,11 @@
         }
           ${document.getElementById("troubleshooting").value}`;
 
+        const TodoText = `${
+          document.getElementById("labelTodo").textContent
+        }
+          ${document.getElementById("todo").value}`;
+                
         notesTextRaw = `
         ${problemStartDate}
         ${userDescriptionText}
@@ -728,7 +733,10 @@
         notesTextRaw = notesTextRaw.replace(/^\s*[\r\n]/gm, "");
 
         notesText = `${notesTextRaw}
-        ${troubleshootingText}`;
+        ${troubleshootingText}
+        
+        ${TodoText}`        
+        ;
 
         console.log(notesText);
 
