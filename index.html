@@ -298,8 +298,7 @@
             id="userDescription"
             col="100"
             rows="2"
-          ></textarea>
-          <!-- TODO add initial diagnosis -->
+          ></textarea>          
            <label
             for="initialDiagnosis"
             id="labelInitialDiagnosis"
@@ -623,6 +622,13 @@
             }`
           : "";
 
+        const initialDiagnosisText = document.getElementById("initialDiagnosis")
+          .value
+          ? `${document.getElementById("labelInitialDiagnosis").textContent} ${
+              document.getElementById("initialDiagnosis").value
+            }`
+          : "";          
+
         const deviceTypeText = document.getElementById("osList").value
           ? `${document.getElementById("labelDeviceTypeList").textContent} ${
               document.getElementById("deviceTypeList").value
@@ -690,6 +696,7 @@
         notesTextRaw = `
         ${problemStartDate}
         ${userDescriptionText}
+        ${initialDiagnosisText}
         ${deviceTypeText}
         ${osText}
         ${osVersion}
