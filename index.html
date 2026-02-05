@@ -709,11 +709,12 @@
           document.getElementById("labelTodo").textContent
         }
           ${document.getElementById("todo").value}`;
-                
+
+        //TODO maybe break up so have some white space but not too much?
         notesTextRaw = `
         ${problemStartDate}
         ${userDescriptionText}
-        ${initialDiagnosisText}
+        ${initialDiagnosisText}        
         ${deviceTypeText}
         ${osText}
         ${osVersion}
@@ -734,7 +735,7 @@
 
         notesText = `${notesTextRaw}
         ${troubleshootingText}
-        
+
         ${TodoText}`        
         ;
 
