@@ -727,9 +727,9 @@
         //   : "";
 
          const underWarranty=document.querySelector('input[name="underWarranty"]:checked')
-          ? `Under warranty: ${document.querySelector('input[name="underWarranty"]:checked').value}` 
+          ? `${document.querySelector('.radio-fieldset legend').innerHTML} ${document.querySelector('input[name="underWarranty"]:checked').value}` 
           : ""
-
+          console.log(document.querySelector('.radio-fieldset legend'))
         //https://stackoverflow.com/questions/64433943/can-an-html-checkbox-value-hold-a-boolean-instead-of-a-string
 
         //if os not Windows, set to empty string
