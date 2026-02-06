@@ -385,7 +385,15 @@
             >
             <input type="checkbox" name="underWarranty" id="underWarranty" />
           </div>
-
+          <fieldset>
+            <legend>Under warranty?</legend>
+              <label for="underWarranty-yes">Yes</label><input type="radio" name="underWarranty" id="underWarranty-yes" value="Yes"/>
+              <label for="underWarranty-no">No</label><input type="radio" name="underWarranty" id="underWarranty-no" value="no"/>
+              <label for="underWarranty-maybe">Maybe</label><input type="radio" name="underWarranty" id="underWarranty-maybe" value="maybe"/>
+          </fieldset>
+          <!-- Under warranty? -->
+           <!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/radio -->
+            <!-- https://developer.mozilla.org/en-US/docs/Web/API/RadioNodeList/value -->
           <!-- TODO should these be yes no maybe?? -->
           <div class="checkbox windows-specific">
             <label
