@@ -720,11 +720,15 @@
             }`
           : "";
 
-        const underWarranty = document.getElementById("underWarranty").checked
-          ? `${document.getElementById("labelUnderWarranty").textContent} ${
-              document.getElementById("underWarranty").checked
-            }`
-          : "";
+        // const underWarranty = document.getElementById("underWarranty").checked
+        //   ? `${document.getElementById("labelUnderWarranty").textContent} ${
+        //       document.getElementById("underWarranty").checked
+        //     }`
+        //   : "";
+
+         const underWarranty=document.querySelector('input[name="underWarranty"]:checked')
+          ? `Under warranty: ${document.querySelector('input[name="underWarranty"]:checked').value}` 
+          : ""
 
         //https://stackoverflow.com/questions/64433943/can-an-html-checkbox-value-hold-a-boolean-instead-of-a-string
 
