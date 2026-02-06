@@ -172,6 +172,7 @@
       }
 
       #labelTroubleshooting,
+      #labelTodo,
       #labelOutputNotes {
         text-align: center;
       }
@@ -298,10 +299,28 @@
             id="userDescription"
             col="100"
             rows="2"
+          ></textarea>          
+           <label
+            for="initialDiagnosis"
+            id="labelInitialDiagnosis"
+            name="labelnitialDiagnosis"
+            >Initial Diagnosis:</label
+          >
+          <textarea
+            name="initialDiagnosis"
+            id="initialDiagnosis"
+            col="100"
+            rows="2"
           ></textarea>
         </fieldset>
         <fieldset class="device-info">
           <legend>Device Info</legend>
+          <div>
+            <label for="deviceName" id="labelDeviceName" name="labelDeviceName"
+              >Device Name:</label
+            >
+            <input type="text" name="deviceName" id="deviceName" />
+          </div>          
           <div>
             <label
               for="deviceTypeList"
@@ -339,12 +358,12 @@
           <div>
             <label for="osVersion" id="labelOSVersion" name="labelOSVersion"
               >Version/flavor:</label
-            >
+            >            
             <input
               type="text"
               name="osVersion"
               id="osVersion"
-              placeholder="22H2, 23H2, Sequoia, Ubuntu, etc."
+              placeholder="24H2, 25H2, Tahoe, Ubuntu, etc."
             />
           </div>
           <div>
@@ -356,6 +375,7 @@
             >
             <input type="text" name="osVersionNumber" id="osVersionNumber" />
           </div>
+          <!-- TODO should these be yes no maybe?? -->
           <div class="checkbox">
             <label
               for="underWarranty"
@@ -366,6 +386,7 @@
             <input type="checkbox" name="underWarranty" id="underWarranty" />
           </div>
 
+          <!-- TODO should these be yes no maybe?? -->
           <div class="checkbox windows-specific">
             <label
               for="biosAndDriversUpToDate"
@@ -379,12 +400,7 @@
               id="biosAndDriversUpToDate"
             />
           </div>
-          <div>
-            <label for="deviceName" id="labelDeviceName" name="labelDeviceName"
-              >Device Name:</label
-            >
-            <input type="text" name="deviceName" id="deviceName" />
-          </div>
+
         </fieldset>
 
         <fieldset>
@@ -417,18 +433,28 @@
             for="troubleshooting"
             id="labelTroubleshooting"
             name="labelTroubleshooting"
-            >-- Troubleshooting Done --</label
+            >-- Troubleshooting --</label
           >
 
           <textarea name="troubleshooting" id="troubleshooting"></textarea>
         </fieldset>
+        <fieldset class="ts-todo">
+          <label
+            for="todo"
+            id="labelTodo"
+            name="labelTodo"
+            >-- TODO --</label
+          >
+
+          <textarea name="todo" id="todo"></textarea>
+        </fieldset>        
         <div class="form-buttons">
           <button
             type="button"
             class="btn-reset"
             onclick="resetFormAndDate(this.form, document.getElementById('problemStartDate'))"
           >
-            Clear
+            Clear All
           </button>
           <button type="submit" class="btn-submit">Generate Notes</button>
           <div id="tsPopover" popover></div>
@@ -451,6 +477,7 @@
 
       deviceTypes = [
         "PC",
+        "Server",
         "iOS Device (iPhone, iPad)",
         "Android Device (phone, tablet)",
         "Handheld Scanner",
@@ -459,7 +486,8 @@
 
       /* Some handscanners use Windows Mobile, esp. if secondhand */
       operatingSystems = [
-        "Windows 10",
+        "Windows 10 End of Life (EOL)",
+        "Windows 10 Extended Security Updates (ESU)",
         "Windows 11",
         "macOS",
         "iOS",
@@ -608,6 +636,19 @@
             }`
           : "";
 
+        const initialDiagnosisText = document.getElementById("initialDiagnosis")
+          .value
+          ? `${document.getElementById("labelInitialDiagnosis").textContent} ${
+              document.getElementById("initialDiagnosis").value
+            }`
+          : "";
+
+        const deviceName = document.getElementById("deviceName").value
+          ? `${document.getElementById("labelDeviceName").textContent} ${
+              document.getElementById("deviceName").value
+            }`
+          : "";             
+
         const deviceTypeText = document.getElementById("osList").value
           ? `${document.getElementById("labelDeviceTypeList").textContent} ${
               document.getElementById("deviceTypeList").value
@@ -649,11 +690,7 @@
             } ${document.getElementById("biosAndDriversUpToDate").checked}`
           : "";
 
-        const deviceName = document.getElementById("deviceName").value
-          ? `${document.getElementById("labelDeviceName").textContent} ${
-              document.getElementById("deviceName").value
-            }`
-          : "";
+
 
         const ipAddress = document.getElementById("ipAddress").value
           ? `${document.getElementById("labelIPAddress").textContent} ${
@@ -672,16 +709,23 @@
         }
           ${document.getElementById("troubleshooting").value}`;
 
+        const TodoText = `${
+          document.getElementById("labelTodo").textContent
+        }
+          ${document.getElementById("todo").value}`;
+
+        //TODO maybe break up so have some white space but not too much? Or conditionally show the text?
         notesTextRaw = `
         ${problemStartDate}
         ${userDescriptionText}
+        ${initialDiagnosisText}        
+        ${deviceName}
         ${deviceTypeText}
         ${osText}
         ${osVersion}
         ${osVersionNumber}
         ${underWarranty}
         ${biosAndDriversUpToDateChecked}
-        ${deviceName}
         ${ipAddress}
         ${applicationName}
         `;
@@ -694,7 +738,10 @@
         notesTextRaw = notesTextRaw.replace(/^\s*[\r\n]/gm, "");
 
         notesText = `${notesTextRaw}
-        ${troubleshootingText}`;
+        ${troubleshootingText}
+
+        ${TodoText}`        
+        ;
 
         console.log(notesText);
 
